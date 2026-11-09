@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Азимбек & Айпери — Үй тою</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Georgia, serif;
+    background: linear-gradient(135deg, #dce9f7, #f8f5ed, #c8d9ed);
+    color: #17365d;
+    overflow-x: hidden;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 15px;
+}
+
+.envelope-wrapper {
+    width: 100%;
+    max-width: 480px;
+    perspective: 1200px;
+}
+
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 310px;
+    background: #244d7b;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(20, 45, 75, 0.3);
+    cursor: pointer;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #315f91, #17375f);
+    clip-path: polygon(0 0, 50% 55%, 100% 0);
+    z-index: 3;
+    transform-origin: top;
+    transition: transform 1s ease;
+}
+
+.envelope.open::before {
+    transform: rotateX(180deg);
+    z-index: 0;
+}
+
+.envelope::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(35deg, #17375f, #416d9d);
+    clip-path: polygon(0 100%, 50% 48%, 100% 100%);
+    z-index: 2;
+}
+
+.envelope-front {
+    position: absolute;
+    z-index: 4;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+}
+
+.envelope-front .ornament {
+    color: #e8cf8b;
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.envelope-front h1 {
+    font-size: 34px;
+    color: #f4dfaa;
+    margin-bottom: 12px;
+}
+
+.envelope-front p {
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+
+.seal {
+    margin-top: 20px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #d7b66e;
+    color: #17365d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    box-shadow: 0 3px 12px #102c4c;
+}
+
+.tap-text {
+    text-align: center;
+    margin-top: 25px;
+    color: #244d7b;
+    font-size: 17px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    50% { opacity: 0.45; }
+}
+
+/* ЧАКЫРУУ КАРТАСЫ */
+
+.invitation {
+    display: none;
+    width: 100%;
+    background: #fffdf8;
+    border: 5px double #c5a45d;
+    border-radius: 12px;
+    padding: 35px 23px;
+    text-align: center;
+    box-shadow: 0 15px 45px rgba(25, 50, 80, 0.2);
+    animation: appear 1.2s ease forwards;
+    position: relative;
+}
+
+.invitation.show {
+    display: block;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.flower {
+    font-size: 35px;
+    color: #c5a45d;
+    margin: 10px 0;
+}
+
+.small-title {
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: #9b7a3d;
+    margin-bottom: 18px;
+}
+
+.invitation h1 {
+    font-size: 38px;
+    color: #244d7b;
+    line-height: 1.35;
+    margin: 15px 0;
+}
+
+.heart {
+    color: #c49b54;
+    font-size: 25px;
+}
+
+.invitation h2 {
+    font-size: 23px;
+    color: #9b7a3d;
+    margin: 20px 0;
+}
+
+.message {
+    font-size: 17px;
+    line-height: 1.8;
+    margin: 18px 0;
+}
+
+.date {
+    background: #edf3fa;
+    border-top: 1px solid #c5a45d;
+    border-bottom: 1px solid #c5a45d;
+    padding: 18px 10px;
+    margin: 20px 0;
+}
+
+.date strong {
+    font-size: 27px;
+    color: #244d7b;
+}
+
+.date p {
+    margin-top: 7px;
+    font-size: 15px;
+}
+
+.details {
+    font-size: 16px;
+    line-height: 1.9;
+    margin: 18px 0;
+}
+
+.hosts {
+    color: #9b7a3d;
+    font-weight: bold;
+}
+
+.closing {
+    font-size: 19px;
+    font-style: italic;
+    color: #244d7b;
+    line-height: 1.6;
+    margin-top: 22px;
+}
+
+.music-button {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    border: 1px solid #c5a45d;
+    background: #244d7b;
+    color: white;
+    padding: 11px 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 14px;
+}
+
+.footer {
+    font-size: 12px;
+    color: #9b7a3d;
+    margin-top: 22px;
+}
+
+@media (max-width: 400px) {
+    .invitation h1 {
+        font-size: 31px;
+    }
+
+    .message {
+        font-size: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<button class="music-button" id="musicButton">
+    ♫ Музыка
+</button>
+
+<audio id="music" loop>
+    <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+    <div class="envelope-wrapper">
+
+        <div class="envelope" id="envelope">
+
+            <div class="envelope-front">
+                <div class="ornament">❀ ❀ ❀</div>
+
+                <p>СИЗГЕ АРНАЛГАН ЧАКЫРУУ</p>
+
+                <h1>Азимбек & Айпери</h1>
+
+                <p>ҮЙ ТОЮНА ЧАКЫРАБЫЗ</p>
+
+                <div class="seal">♥</div>
+            </div>
+
+        </div>
+
+        <p class="tap-text" id="tapText">
+            ✨ Чакыруу катын ачуу үчүн басыңыз ✨
+        </p>
+
+        <div class="invitation" id="invitation">
+
+            <div class="flower">❀ ✧ ❀</div>
+
+            <p class="small-title">
+                ТОЙГО ЧАКЫРУУ
+            </p>
+
+            <h1>
+                Азимбек
+                <span class="heart">&</span>
+                Айпери
+            </h1>
+
+            <h2>Ардактуу коноктор!</h2>
+
+            <p class="message">
+                Ардактуу туугандар, куда-сөөк,
+                достор жана жакындарыбыз!
+                <br><br>
+                Сиздерди Азимбек менен Айперинин
+                кубанычтуу күнүнө арналган
+                үй тоюбузга чакырабыз!
+            </p>
+
+            <div class="date">
+                <strong>24–25 НОЯБРЬ</strong>
+                <p>Эки күндүк майрам</p>
+            </div>
+
+            <div class="details">
+                <p>📍 <strong>Дареги:</strong></p>
+                <p>Аксы району, Кара-Жыгач айылы</p>
+                <p>Өз үйүбүздө</p>
+            </div>
+
+            <div class="details">
+                <p><strong>Той ээлери:</strong></p>
+                <p class="hosts">
+                    Бубуайым · Айгүл · Нуржигит
+                </p>
+            </div>
+
+            <p class="closing">
+                Ак дасторконубуздун төрүнөн орун алып,
+                кубанычыбызга ортоктош болуп,
+                тойдун көркүн ачып кетиңиздер!
+                <br><br>
+                Тойго келип, конок болуп кетиңиздер!
+            </p>
+
+            <div class="flower">❀ ✧ ❀</div>
+
+            <p class="footer">
+                Сиздерди чыдамсыздык менен күтөбүз!
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const envelope = document.getElementById("envelope");
+const invitation = document.getElementById("invitation");
+const tapText = document.getElementById("tapText");
+const music = document.getElementById("music");
+const musicButton = document.getElementById("musicButton");
+
+let opened = false;
+let musicPlaying = false;
+
+envelope.addEventListener("click", function() {
+
+    if (opened) return;
+
+    opened = true;
+
+    envelope.classList.add("open");
+    tapText.style.display = "none";
+
+    setTimeout(function() {
+        envelope.style.display = "none";
+        invitation.classList.add("show");
+    }, 900);
+
+});
+
+musicButton.addEventListener("click", function() {
+
+    if (!musicPlaying) {
+
+        music.play().then(function() {
+            musicPlaying = true;
+            musicButton.textContent = "♫ Музыканы өчүрүү";
+        }).catch(function() {
+            alert("Музыканы ойнотуу мүмкүн болгон жок. MP3 файлын текшериңиз.");
+        });
+
+    } else {
+
+        music.pause();
+        musicPlaying = false;
+        musicButton.textContent = "♫ Музыка";
+
+    }
+
+});
+</script>
+
+</body>
+</html>
