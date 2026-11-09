@@ -1,4 +1,384 @@
-репозиторий/
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Азимбек & Айпери — Үй тою</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Georgia, serif;
+    background: linear-gradient(135deg, #dce9f7, #fffaf0, #c8d9ed);
+    color: #17365d;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 15px;
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 480px;
+}
+
+.envelope {
+    position: relative;
+    height: 310px;
+    background: #244d7b;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px #17365d55;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.envelope:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #416d9d, #17375f);
+    clip-path: polygon(0 0, 50% 55%, 100% 0);
+    z-index: 3;
+}
+
+.envelope:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #315f91;
+    clip-path: polygon(0 100%, 50% 48%, 100% 100%);
+    z-index: 2;
+}
+
+.envelope-front {
+    position: absolute;
+    z-index: 4;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.envelope-front h1 {
+    font-size: 34px;
+    color: #f4dfaa;
+    margin: 15px 0;
+}
+
+.ornament {
+    font-size: 35px;
+    color: #e8cf8b;
+}
+
+.seal {
+    margin-top: 20px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #d7b66e;
+    color: #17365d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+}
+
+.tap {
+    text-align: center;
+    margin: 22px 0;
+    color: #244d7b;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    50% { opacity: .4; }
+}
+
+.invitation {
+    display: none;
+    background: #fffdf8;
+    border: 5px double #c5a45d;
+    border-radius: 12px;
+    padding: 35px 23px;
+    text-align: center;
+    box-shadow: 0 15px 45px #17365d33;
+}
+
+.invitation.show {
+    display: block;
+    animation: appear 1s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.flower {
+    font-size: 35px;
+    color: #c5a45d;
+    margin: 12px;
+}
+
+.small-title {
+    letter-spacing: 3px;
+    color: #9b7a3d;
+    margin-bottom: 18px;
+}
+
+.invitation h1 {
+    font-size: 36px;
+    color: #244d7b;
+    margin: 15px 0;
+}
+
+.invitation h2 {
+    color: #9b7a3d;
+    margin: 20px 0;
+}
+
+.message {
+    font-size: 17px;
+    line-height: 1.8;
+    margin: 18px 0;
+}
+
+.date {
+    background: #edf3fa;
+    border-top: 1px solid #c5a45d;
+    border-bottom: 1px solid #c5a45d;
+    padding: 18px 10px;
+    margin: 20px 0;
+}
+
+.date strong {
+    font-size: 27px;
+    color: #244d7b;
+}
+
+.details {
+    font-size: 16px;
+    line-height: 1.9;
+    margin: 18px 0;
+}
+
+.hosts {
+    color: #9b7a3d;
+    font-weight: bold;
+}
+
+.closing {
+    font-size: 19px;
+    font-style: italic;
+    color: #244d7b;
+    line-height: 1.7;
+    margin-top: 22px;
+}
+
+.music-button {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    border: 1px solid #c5a45d;
+    background: #244d7b;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 14px;
+}
+
+.footer {
+    font-size: 12px;
+    color: #9b7a3d;
+    margin-top: 22px;
+}
+
+@media(max-width:400px) {
+    .invitation h1 {
+        font-size: 30px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<button class="music-button" id="musicButton">
+    ♫ Музыканы күйгүзүү
+</button>
+
+<audio id="music" loop preload="auto">
+    <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+<div class="wrapper">
+
+    <div class="envelope" id="envelope">
+        <div class="envelope-front">
+            <div class="ornament">❀ ❀ ❀</div>
+            <p>СИЗГЕ АРНАЛГАН ЧАКЫРУУ</p>
+            <h1>Азимбек & Айпери</h1>
+            <p>ҮЙ ТОЮНА ЧАКЫРАБЫЗ</p>
+            <div class="seal">♥</div>
+        </div>
+    </div>
+
+    <p class="tap" id="tap">
+        ✨ Чакыруу катын ачуу үчүн басыңыз ✨
+    </p>
+
+    <div class="invitation" id="invitation">
+
+        <div class="flower">❀ ✧ ❀</div>
+
+        <p class="small-title">ТОЙГО ЧАКЫРУУ</p>
+
+        <h1>Азимбек & Айпери</h1>
+
+        <h2>Ардактуу коноктор!</h2>
+
+        <p class="message">
+            Ардактуу туугандар, куда-сөөк,
+            достор жана жакындарыбыз!
+            <br><br>
+            Сиздерди Азимбек менен Айперинин
+            кубанычтуу күнүнө арналган
+            үй тоюбузга чакырабыз!
+        </p>
+
+        <div class="date">
+            <strong>24–25 НОЯБРЬ</strong>
+            <p>Эки күндүк майрам</p>
+        </div>
+
+        <div class="details">
+            📍 <strong>Дареги:</strong>
+            <p>Аксы району, Кара-Жыгач айылы</p>
+            <p>Өз үйүбүздө</p>
+        </div>
+
+        <div class="details">
+            <strong>Той ээлери:</strong>
+            <p class="hosts">Бубуайым · Айгүл · Нуржигит</p>
+        </div>
+
+        <p class="closing">
+            Ак дасторконубуздун төрүнөн орун алып,
+            кубанычыбызга ортоктош болуп,
+            тойдун көркүн ачып кетиңиздер!
+            <br><br>
+            Тойго келип, конок болуп кетиңиздер!
+        </p>
+
+        <div class="flower">❀ ✧ ❀</div>
+
+        <p class="footer">
+            Сиздерди чыдамсыздык менен күтөбүз!
+        </p>
+
+    </div>
+</div>
+</div>
+
+<script>
+const envelope = document.getElementById("envelope");
+const invitation = document.getElementById("invitation");
+const tap = document.getElementById("tap");
+const music = document.getElementById("music");
+const musicButton = document.getElementById("musicButton");
+
+let opened = false;
+let playing = false;
+
+// Музыканы иштетүү
+async function startMusic() {
+    try {
+        music.volume = 0.8;
+        await music.play();
+
+        playing = true;
+        musicButton.textContent = "♫ Музыканы өчүрүү";
+
+    } catch (error) {
+        playing = false;
+        musicButton.textContent = "♫ Музыканы күйгүзүү";
+        console.log("Музыка иштеген жок:", error);
+    }
+}
+
+// Конвертти басканда чакыруу ачылат
+envelope.addEventListener("click", async function() {
+
+    if (opened) return;
+
+    opened = true;
+
+    await startMusic();
+
+    envelope.style.transition = "all 1s ease";
+    envelope.style.transform = "scale(0.8)";
+    envelope.style.opacity = "0";
+
+    tap.style.display = "none";
+
+    setTimeout(function() {
+        envelope.style.display = "none";
+        invitation.classList.add("show");
+    }, 900);
+
+});
+
+// Музыканы күйгүзүү жана өчүрүү баскычы
+musicButton.addEventListener("click", async function() {
+
+    if (playing) {
+        music.pause();
+        playing = false;
+        musicButton.textContent = "♫ Музыканы күйгүзүү";
+    } else {
+        await startMusic();
+    }
+
+});
+
+// Эгер музыка өзүнөн өзү токтосо, баскычтын жазуусун жаңыртуу
+music.addEventListener("pause", function() {
+    playing = false;
+    musicButton.textContent = "♫ Музыканы күйгүзүү";
+});
+
+music.addEventListener("play", function() {
+    playing = true;
+    musicButton.textContent = "♫ Музыканы өчүрүү";
+});
+</script>
+
+</body>
+</html>репозиторий/
 │
 ├── index.html
 │
